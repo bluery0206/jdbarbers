@@ -12,7 +12,7 @@ require_once 'assets/includes/login.includes.php';
 
 <?php 
 
-$page_title = "Home";
+$page_title = "Dashboard";
 require_once "assets/components/head.php";
 
 ?>

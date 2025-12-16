@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["user"] = $user;
 
             // Redirect the user to the home page
-            header("location: index.php");
+            header("location: dashboard.php");
         } else {
             // Says the same thing regardless if the
             // user doesnt exists or the password is wrong for security reasons

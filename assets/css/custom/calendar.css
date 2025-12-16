@@ -16,10 +16,29 @@
 .calendar-day-unavailable {
     background: var(--danger);
     color: var(--white);
+    cursor: not-allowed;
+}
+.calendar-day-past {
+    background: var(--muted);
+    cursor: not-allowed;
+}
+.calendar-day-available {
+    background: var(--success);
+    color: var(--white);
+}
+.calendar-day-current {
+    background: var(--warning);
+    color: var(--white);
 }
 
 .calendar-day-link {
     display: block;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    row-gap: 5px;
+    flex-direction: column;
 }

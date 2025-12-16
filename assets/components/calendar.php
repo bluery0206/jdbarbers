@@ -20,7 +20,7 @@
 
 <div class="uk-container uk-overflow-auto uk-margin" id="calendar">
     <div>
-        <h2><?= date('F') ?> <?= date('Y') ?> Calendar</h2>
+        <h2 class="uk-text-center"><?= date('F') ?> <?= date('Y') ?> Calendar</h2>
         <hr class="uk-divider-small">
         <table class="calendar-table">
             <tr>
@@ -58,6 +58,7 @@
                         <?php
                             $current_year   = date('Y');
                             $current_month  = date('m');
+                            $current_day  = date('d');
 
                             $date = "$current_year-$current_month-$day_count";
 
@@ -68,19 +69,30 @@
                             // ie 0, 1, 3 would be closed sa dominggo, lunes, ug Miyerkules
                             $is_closed_day = in_array($week_day, [0, 6]) || in_array($day_count, $close_dates);
                         ?>
-                        <td
-                            <?php if ($is_closed_day) :?>
-                                class="calendar-day-unavailable"
-                            <?php endif ?>
-                        >
+                        <?php if ($day_count == $current_day) :?>
+                            <td class="calendar-day calendar-day-current">
+                        <?php elseif ($day_count < $current_day) :?>
+                            <td class="calendar-day calendar-day-past"></td>
+                        <?php elseif ($is_closed_day) :?>
+                            <td class="calendar-day calendar-day-unavailable">
+                        <?php elseif ($is_week_day_match) :?>
+                            <td class="calendar-day calendar-day-available">
+                        <?php else :  ?>
+                            <td>
+                        <?php endif ?>
                             <!-- To put the number in the cell -->
-                            <?php if ($is_week_day_match) : ?>
+                            <?php if ($is_week_day_match && $day_count <= $days_in_month) : ?>
                                 <!-- To identify if the current day is closing day -->
-                                <?php if ($is_closed_day || in_array($week_day, $close_dates)) : ?>
+                                <?php if ($day_count < $current_day || $is_closed_day || in_array($week_day, $close_dates)) : ?>
                                     <?= $day_count ?>
                                 <?php else : ?>
-                                    <a href="book.php?date_appointment=<?= $current_year ?>-<?= $current_month ?>-<?= $day_count ?>" class="calendar-day-link">
-                                        <?= $day_count ?>
+                                    <a href="appointment_add.php?date_appointment=<?= $current_year ?>-<?= $current_month ?>-<?= $day_count ?>" class="calendar-day-link">
+                                        <div>
+                                            <?= $day_count ?>
+                                        </div>
+                                        <div>
+                                            slots available
+                                        </div>
                                     </a>
                                 <?php endif ?>
 
