@@ -20,7 +20,7 @@ function connect(): PDO {
         $hostname = "localhost";
         $username = "root";
         $password = "";
-        $database = "jdegamo";
+        $database = "jbas";
 
         $dsn = "mysql:host=$hostname;dbname=$database";
        

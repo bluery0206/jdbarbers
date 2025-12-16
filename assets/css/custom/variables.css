@@ -1,3 +1,5 @@
 :root {
     --dark: rgb(80, 80, 80);
+    --white: rgb(232, 230, 230);
+    --danger: rgb(207, 96, 96);
 }

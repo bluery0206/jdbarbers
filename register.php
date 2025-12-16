@@ -25,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             execute($sql, $values);
 
             // Redirect the user to the home page
-            header("location: login.php");
+            header("location: index.php");
         } else {
             // Says the same thing regardless if the
             // user doesnt exists or the password is wrong for security reasons

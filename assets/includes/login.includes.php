@@ -17,20 +17,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($user->password) && password_verify($password, $user->password)) {
             // Query for logging the current date and the time the user logged in
             // with the session_token
-            $session_token = uniqid("user_log_");
-            $sql    = "INSERT INTO user_log (username, session_token, date, time_in) 
-                        VALUES (?, ?, CURDATE(), CURTIME());";
-            $values = [$username, $session_token];
+            $sql    = "INSERT INTO log (user_id, category, action, date_created) 
+                        VALUES (?, ?, ?, CURTIME());";
+            $values = [$user->id, "user", "login"];
             execute($sql, $values);
 
             // Store user deets in current session along
             // with the seesion tokern yea
             session_start();
             $_SESSION["user"] = $user;
-            $_SESSION["session_token"] = $session_token;
 
             // Redirect the user to the home page
-            header("location: home.php");
+            header("location: index.php");
         } else {
             // Says the same thing regardless if the
             // user doesnt exists or the password is wrong for security reasons
