@@ -29,7 +29,7 @@ function redirect(string $url) {
  *     Full public URL to the PHP file.
  */
 function route(string $name): string {
-    $filePath = DIR_PUBLIC . "/$name.php";
+    $filePath = __DIR__ . "/$name.php";
     
     if (!file_exists($filePath)) {
         throw new Exception($filePath);
@@ -82,7 +82,13 @@ function asset(string $relativePath): string {
  * @return string
  */
 function isViewActive(string $view, string $returnOnTrue = "active"): string {
-    $viewName = pathinfo(route($view), PATHINFO_FILENAME);
+    try {
+        $route = route($view);
+    } catch (Exception $e) {
+        return "";
+    }
+
+    $viewName = pathinfo($route, PATHINFO_FILENAME);
     $currentViewName = pathinfo($_SERVER["PHP_SELF"], PATHINFO_FILENAME);
     return $currentViewName == $viewName ? $returnOnTrue : "" ;
 }

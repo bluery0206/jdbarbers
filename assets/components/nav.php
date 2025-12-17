@@ -28,6 +28,16 @@
                     <?php if (isAuthorized()) :?>
                         <div class="uk-navbar-right">
                             <ul class="uk-navbar-nav">
+                                <li>
+                                    <a href="#">Manage</a>
+                                    <div class="uk-navbar-dropdown">
+                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                            <li <?= isViewActive("appointment_index") ? "class='uk-active'" : "" ?>><a href="appointment_index.php">Appointments</a></li>
+                                            <li <?= isViewActive("close_dates") ? "class='uk-active'" : "" ?>><a href="#">Close Dates</a></li>
+                                            <li <?= isViewActive("services") ? "class='uk-active'" : "" ?>><a href="#">Services</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <li><a href="logout.php">Logout <?= $_SESSION['user']->username ?></a></li>
                             </ul>
                         </div>

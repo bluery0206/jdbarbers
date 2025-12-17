@@ -27,25 +27,28 @@ require_once "assets/components/nav.php";
 
 <?php 
 
-$idk = filter_var($_GET['date_appointment'], FILTER_SANITIZE_STRING) ?? null;
+if (!isset($_GET['id'])) {
+    header("location: appointment_index.php"); 
+}
 
-// $sql = "INSERT INTO customer (name, email, mobile) VALUES (?, ?, ?)";
-// $values = []
-// $close_dates = execute($sql)->fetchAll(PDO::FETCH_COLUMN);
-// $close_dates = array_map(
-//     fn($date_str) => date("j", strtotime($date_str)), 
-//     $close_dates
-// );
+$id = $_GET['id'];
+$sql = "SELECT * FROM appointment WHERE id = ? LIMIT 1";
+$values = [$id];
+$close_date = execute($sql, $values)->fetch();
 
-// var_dump($close_dates);
+if (!$close_date) {
+    header("location: appointment_index.php"); 
+}
+
+var_dump($close_date);
 
 ?>
     <div class="uk-container" style="border: 1px solid red;">
         <form action="">
             <h2>Set appointment on <?= date("F d, Y, l", strtotime($idk))?></h2>
             <div>
-                <label for="">Name</label>
-                <input type="text" name="name" id="name">
+                <label for="">Customer ID</label>
+                <input type="text" name="customer_id" id="customer_id" value="<?= $close_date->customer_id ?>">
             </div>
             <div>
                 <label for="">Email</label>

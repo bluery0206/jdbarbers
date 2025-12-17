@@ -27,7 +27,10 @@ require_once "assets/components/nav.php";
 
 <?php 
 
-$idk = filter_var($_GET['date_appointment'], FILTER_SANITIZE_STRING) ?? null;
+$date_appointment = filter_var($_GET['date_appointment'], FILTER_SANITIZE_STRING) ?? null;
+
+var_dump($date_appointment);
+var_dump($customer_id);
 
 // $sql = "INSERT INTO customer (name, email, mobile) VALUES (?, ?, ?)";
 // $values = []
@@ -42,7 +45,8 @@ $idk = filter_var($_GET['date_appointment'], FILTER_SANITIZE_STRING) ?? null;
 ?>
     <div class="uk-container" style="border: 1px solid red;">
         <form action="">
-            <h2>Set appointment on <?= date("F d, Y, l", strtotime($idk))?></h2>
+            <h2>Set appointment on <?= date("F d, Y, l", strtotime($date_appointment))?></h2>
+
             <div>
                 <label for="">Name</label>
                 <input type="text" name="name" id="name">
@@ -62,7 +66,8 @@ $idk = filter_var($_GET['date_appointment'], FILTER_SANITIZE_STRING) ?? null;
                 </select>
             </div>
             <div>
-                <input type="submit" value="Appoint of idk">
+                <input type="submit" value="Appoint of date_appointment">
+
             </div>
         </form>
     </div>

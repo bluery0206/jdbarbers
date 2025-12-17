@@ -34,7 +34,7 @@
             </tr>
 
             <?php
-                $sql = "SELECT date_close FROM calendar 
+                $sql = "SELECT date_close FROM close_dates 
                         WHERE 
                             MONTH(date_close) = MONTH(CURRENT_DATE()) AND 
                             YEAR(date_close) = YEAR(CURRENT_DATE())
