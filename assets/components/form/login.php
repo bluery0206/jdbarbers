@@ -1,21 +1,31 @@
+<?php 
 
-<form method="post">
-    <?php if ($error): ?>
-        <div>
+    require_once 'assets/includes/login.includes.php';
+
+?>
+
+<form method="POST" class="uk-form-horizontal">
+    <legend class="uk-legend">Login</legend>
+
+    <?php if (isset($error)): ?>
+        <div class="uk-alert-danger" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
             <?= $error ?>
         </div>
     <?php endif ?>
 
-    <div>
-        <div>
-            <label for="username">Username</label>
-            <input type="text" name="username" placeholder="jdelacruz" id="username" required>
+    <div class="uk-margin">
+        <label class="uk-form-label" for="username">Username</label>
+        <div class="uk-form-controls">
+            <input class="uk-input k-form-controls-text" type="text" name="username" placeholder="jdelacruz" id="username" required>
         </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Jd4laCrUz123" id="password" required>
+    </div>
+    <div class="uk-margin">
+        <label class="uk-form-label" for="password">Password</label>
+        <div class="uk-form-controls">
+            <input class="uk-input uk-form-controls-text" type="password" name="password" placeholder="Jd4laCrUz123" id="password" required>
         </div>
     </div>
 
-    <input type="submit" value="Login">
+    <input class="uk-button uk-button-secondary uk-width-1" type="submit" name="login" value="Login">
 </form>

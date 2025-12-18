@@ -102,6 +102,11 @@
                                                             <h2 class="uk-modal-title">Set appointment on <?= date("F d, Y, l", strtotime($date))?></h2>
                                                         </div>
                                                         <div class="uk-modal-body">
+                                                            <?php 
+                                                            
+                                                                $action = "appointment_add.php?date_appointment=$date";
+                                                            
+                                                            ?>
                                                             <?php include "assets/components/form/appointment_add.php"; ?>
                                                         </div>
                                                     </div>

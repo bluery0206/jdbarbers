@@ -12,7 +12,7 @@
                     </div>
 
                     <!-- Left Navigation -->
-                    <div class="uk-navbar-center">
+                    <div class="uk-navbar-<?= isAuthorized() ? 'center' : 'right' ?>">
 
                         <!-- Navigation -->
                         <ul class="uk-navbar-nav">

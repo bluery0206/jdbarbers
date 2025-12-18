@@ -3,7 +3,6 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
-require_once 'assets/includes/login.includes.php';
 
 ?>
 
@@ -12,8 +11,8 @@ require_once 'assets/includes/login.includes.php';
 
 <?php 
 
-$page_title = "Home";
-require_once "assets/components/head.php";
+    $page_title = "Home";
+    require_once "assets/components/head.php";
 
 ?>
 
@@ -21,64 +20,73 @@ require_once "assets/components/head.php";
 
 <?php 
 
-require_once "assets/components/nav.php";
-require_once 'assets/components/calendar.php';
+    require_once "assets/components/nav.php";
+
+    $sql = "SELECT AP.*, C.* FROM appointment AP, customer C";
+    $appointments = execute($sql)->fetchAll();
 
 ?>
-dsad
+
+<div class="uk-container">
+    <?php if ($appointments) : ?>
+        <div class="uk-overflow-auto">
+            <table class="uk-table  uk-table-responsive uk-table-divider">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>customer_id</th>
+                        <th>service_id</th>
+                        <th>status</th>
+                        <th>date_appointmtent</th>
+                        <th>date_created</th>
+                        <th>date_updated</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($appointments as $appointment) : ?>
+                        <tr>
+                            <td><?= $appointment->id ?></td>
+                            <td><?= $appointment->customer_id ?></td>
+                            <td><?= $appointment->service_id ?></td>
+                            <td><?= $appointment->status ?></td>
+                            <td><?= $appointment->date_appointment ?></td>
+                            <td><?= $appointment->date_created ?></td>
+                            <td><?= $appointment->date_updated ?></td>
+                            <td>
+                                <a class="calendar-day-link" href="#modal-container-<?= $appointment->id ?>" uk-toggle>
+                                    <div>Edit</div>
+                                </a>
+
+                                <div id="modal-container-<?= $appointment->id ?>" class="uk-modal-container" uk-modal>
+                                    <div class="uk-modal-dialog">
+                                        <button class="uk-modal-close-default" type="button" uk-close=""></button>
+                                        <div class="uk-modal-header">
+                                            <h2 class="uk-modal-title">Set appointment on <?= date("F d, Y, l", strtotime($appointment->date_appointment))?></h2>
+                                        </div>
+                                        <div class="uk-modal-body">
+                                            <?php include "assets/components/form/appointment_add.php"; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <a href="appointment_delete.php?id=<?= $appointment->id ?>">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <h1>No appointments yet</h1>
+    <?php endif ?>
+</div>
+
+
 <?php 
 
-$sql = "SELECT * FROM appointment";
-$close_dates = execute($sql)->fetchAll();
+    require_once "assets/components/footer.php";
 
 ?>
-
-<?php if ($close_dates) : ?>
-    <table border="1">
-        <tr>
-            <th>id</th>
-            <th>customer_id</th>
-            <th>service_id</th>
-            <th>status</th>
-            <th>date_appointmtent</th>
-            <th>date_created</th>
-            <th>date_updated</th>
-            <th>actions</th>
-        </tr>
-        <?php foreach ($close_dates as $close_date) : ?>
-            <tr>
-                <td><?= $close_date->id ?></td>
-                <td><?= $close_date->customer_id ?></td>
-                <td><?= $close_date->service_id ?></td>
-                <td><?= $close_date->status ?></td>
-                <td><?= $close_date->date_appointment ?></td>
-                <td><?= $close_date->date_created ?></td>
-                <td><?= $close_date->date_updated ?></td>
-                <td>
-                    <a class="calendar-day-link" href="#modal-container-<?= $day_count?>" uk-toggle>
-                        <div><?= $day_count ?></div>
-                        <div>slots available</div>
-                    </a>
-
-                    <div id="modal-container-<?= $day_count?>" class="uk-modal-container" uk-modal>
-                        <div class="uk-modal-dialog">
-                            <button class="uk-modal-close-default" type="button" uk-close=""></button>
-                            <div class="uk-modal-header">
-                                <h2 class="uk-modal-title">Set appointment on <?= date("F d, Y, l", strtotime($close_date->date_appointment))?></h2>
-                            </div>
-                            <div class="uk-modal-body">
-                                <?php include "assets/components/form/appointment_add.php"; ?>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <a href="appointment_delete.php?id=<?= $close_date->id ?>">Delete</a>
-                </td>
-            </tr>
-        <?php endforeach ?>
-    </table>
-<?php endif?>
-
-    
 </body>
 </html>

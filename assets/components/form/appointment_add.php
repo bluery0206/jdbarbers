@@ -1,22 +1,26 @@
-<form class="uk-form-stacked" action="appointment_add.php?date_appointment=<?= $date?>" method="POST">
+<form class="uk-form-stacked" action="<?= $action ?>" method="POST">
     <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-name-<?= $day_count ?>">Name</label>
         <div class="uk-form-controls">
-            <input class="uk-input" id="form-stacked-name-<?= $day_count ?>" type="text" name="name" id="name" placeholder="Juan Dela Cruz">
+            <input class="uk-input" id="form-stacked-name-<?= $day_count ?>" type="text" 
+                name="name" id="name" value="<?= $appointment->name ?? "" ?>" placeholder="Juan Dela Cruz" >
         </div>
     </div>
 
     <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-email-<?= $day_count ?>">Email</label>
         <div class="uk-form-controls">
-            <input class="uk-input" id="form-stacked-email-<?= $day_count ?>" type="email" name="email" id="email" placeholder="Juan Dela Cruz">
+            <input class="uk-input" id="form-stacked-email-<?= $day_count ?>" type="email" 
+                name="email" id="email" value="<?= $appointment->email ?? "" ?>" placeholder="jdcruz@something.com" >
         </div>
     </div>
 
     <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-mobile-<?= $day_count ?>">Mobile No.</label>
         <div class="uk-form-controls">
-            <input class="uk-input" id="form-stacked-mobile-<?= $day_count ?>" type="text" name="mobile" id="mobile" placeholder="09123456789" minlength="0" maxlength="11">
+            <input class="uk-input" id="form-stacked-mobile-<?= $day_count ?>" type="text" 
+                name="mobile" id="mobile" minlength="0" maxlength="11" 
+                value="<?= $appointment->mobile ?? "" ?>" placeholder="09123456789">
         </div>
     </div>
     
@@ -31,8 +35,14 @@
     
                 ?>
                 <option value="">Please select...</option>
-                <?php foreach ($jbas_services as $service) : ?>
-                    <option value="<?= $service->id ?>"><?= $service->name ?> <?= $service->price ?></option>
+                <?php foreach ($jbas_services as $jbas_service) : ?>
+                    <option value="<?= $jbas_service->id ?>" 
+                        <?php if (isset($appointment)) : ?>
+                            <?= $appointment->service_id == $jbas_service->id ? "selected" : "" ?>
+                        <?php endif ?>
+                    >
+                        <?= $jbas_service->name ?> - &#8369;<?= $jbas_service->price ?>
+                    </option>
                 <?php endforeach?>
             </select>
         </div>

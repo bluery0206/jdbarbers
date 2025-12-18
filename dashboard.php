@@ -3,7 +3,6 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
-require_once 'assets/includes/login.includes.php';
 
 ?>
 
@@ -98,13 +97,10 @@ require_once "assets/components/calendar.php";
         </div>
         <div class="uk-divider-icon"></div>
     </div>
-    <div class="uk-section">
-        <?php 
-        
-        require_once "assets/components/form/login.php";
-        
-        ?>
-        footer links and etc
-    </div>
+    <?php 
+    
+        require_once "assets/components/footer.php";
+
+    ?>
 </body>
 </html>

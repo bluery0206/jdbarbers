@@ -73,8 +73,10 @@ if (!$service) {
             </div>
         </form>
     </div>
-    <div class="uk-section">
-        footer links and etc
-    </div>
+    <?php 
+    
+        require_once "assets/components/footer.php";
+
+    ?>
 </body>
 </html>

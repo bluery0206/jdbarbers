@@ -3,7 +3,6 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
-require_once 'assets/includes/login.includes.php';
 
 ?>
 
@@ -70,5 +69,10 @@ require_once "assets/components/head.php";
             </div>
         </form>
     </div>
+    <?php 
+    
+        require_once "assets/components/footer.php";
+
+    ?>
 </body>
 </html>

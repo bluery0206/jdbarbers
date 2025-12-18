@@ -3,7 +3,6 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
-require_once 'assets/includes/login.includes.php';
 
 ?>
 
@@ -31,13 +30,25 @@ require_once "assets/components/calendar.php";
         <div class="uk-divider-icon"></div>
 
         <div class="uk-section" id="status">
-            <h2 class="uk-text-center">Already have a appointment id?</h2>
-            
-            <form action="">
-                <label for="appointment_id">Appointment ID</label>
-                <input type="text" name="appointment_id" id="appointment_id">
+            <h2 class="uk-text-center">Already Have An Appointment Token?</h2>
+            <hr class="uk-divider-small">
+            <form method="GET" action="appointment_check.php" class="uk-form-horizontal">
 
-                <input type="submit" value="Check Status">
+                <?php if (isset($error)): ?>
+                    <div>
+                        <?= $error ?>
+                    </div>
+                <?php endif ?>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="token">Appointment Token</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input k-form-controls-text" type="text" name="token" placeholder="d1Q4B3" 
+                            id="token" required>
+                    </div>
+                </div>
+
+                <input class="uk-button uk-button-secondary uk-width-1" type="submit" value="Check Status">
             </form>
         </div>
 
@@ -54,7 +65,6 @@ require_once "assets/components/calendar.php";
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">Haircut</h3>
-                                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p> -->
                             </div>
                         </div>
                     </div>
@@ -62,7 +72,6 @@ require_once "assets/components/calendar.php";
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">Shave</h3>
-                                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p> -->
                             </div>
                             <div class="uk-card-media-bottom">
                                 <img src="assets/images/services/shaving.png" width="1800" height="1200" alt="" loading="lazy">
@@ -76,7 +85,6 @@ require_once "assets/components/calendar.php";
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">Trim</h3>
-                                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p> -->
                             </div>
                         </div>
                     </div>
@@ -96,15 +104,11 @@ require_once "assets/components/calendar.php";
                 </div>
             </div>
         </div>
-        <div class="uk-divider-icon"></div>
     </div>
-    <div class="uk-section">
-        <?php 
-        
-        require_once "assets/components/form/login.php";
-        
-        ?>
-        footer links and etc
-    </div>
+    <?php 
+    
+        require_once "assets/components/footer.php";
+
+    ?>
 </body>
 </html>

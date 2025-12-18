@@ -3,7 +3,6 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
-require_once 'assets/includes/login.includes.php';
 
 ?>
 
@@ -49,9 +48,10 @@ require_once "assets/components/head.php";
                 token,
                 customer_id, 
                 service_id, 
+                status, 
                 date_appointment) 
-            VALUES (?, ?, ?, ?)"; 
-    $values = [$token, $customer_id, $service_id, $date];
+            VALUES (?, ?, ?, ?, ?)"; 
+    $values = [$token, $customer_id, $service_id, "pending", $date];
     execute($sql, $values);
-    header("location: appointment_success.php?token=$token");
+    header("location: appointment_check.php?token=$token");
 ?>

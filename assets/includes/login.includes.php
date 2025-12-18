@@ -1,5 +1,5 @@
 <?php 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     // Retrieve username and password from form
     $username = filter_input(INPUT_POST,"username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST,"password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -22,19 +22,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $values = [$user->id, "user", "login"];
             execute($sql, $values);
 
-            // Store user deets in current session along
-            // with the seesion tokern yea
-            session_start();
             $_SESSION["user"] = $user;
-
-            // Redirect the user to the home page
-            header("location: dashboard.php");
         } else {
             // Says the same thing regardless if the
             // user doesnt exists or the password is wrong for security reasons
             $error = "Wrong username and password.";
         }
-
     } else {
         $error = "Username and password cannot be empty.";
     }
