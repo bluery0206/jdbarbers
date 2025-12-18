@@ -33,8 +33,8 @@
                                     <div class="uk-navbar-dropdown">
                                         <ul class="uk-nav uk-navbar-dropdown-nav">
                                             <li <?= isViewActive("appointment_index") ? "class='uk-active'" : "" ?>><a href="appointment_index.php">Appointments</a></li>
-                                            <li <?= isViewActive("close_dates") ? "class='uk-active'" : "" ?>><a href="#">Close Dates</a></li>
-                                            <li <?= isViewActive("services") ? "class='uk-active'" : "" ?>><a href="#">Services</a></li>
+                                            <li <?= isViewActive("close_dates") ? "class='uk-active'" : "" ?>><a href="close_dates_index.php">Close Dates</a></li>
+                                            <li <?= isViewActive("services") ? "class='uk-active'" : "" ?>><a href="services_index.php">Services</a></li>
                                         </ul>
                                     </div>
                                 </li>
