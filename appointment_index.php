@@ -3,6 +3,7 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
+require_once 'redirect.php';
 
 ?>
 
@@ -22,33 +23,36 @@ require_once 'vendor/autoload.php';
 
     require_once "assets/components/nav.php";
 
-    $sql = "SELECT AP.*, C.* FROM appointment AP, customer C";
+    $sql = "SELECT AP.*, S.name AS service_name, S.price AS service_price, C.name FROM services S, appointment AP, customer C";
     $appointments = execute($sql)->fetchAll();
 
 ?>
 
-<div class="uk-container">
+<div class="uk-container uk-margin">
     <?php if ($appointments) : ?>
-        <div class="uk-overflow-auto">
-            <table class="uk-table  uk-table-responsive uk-table-divider">
+        <div class="uk-overflow-auto ">
+            <table class="uk-table uk-table-responsive uk-table-divider">
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>customer_id</th>
-                        <th>service_id</th>
-                        <th>status</th>
-                        <th>date_appointmtent</th>
-                        <th>date_created</th>
-                        <th>date_updated</th>
-                        <th>actions</th>
+                        <th>Customer</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Appointment</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($appointments as $appointment) : ?>
+                        <?php 
+                        
+                            $date = date("F d, Y, l", strtotime($appointment->date_appointment));
+                            
+                        ?>
                         <tr>
-                            <td><?= $appointment->id ?></td>
-                            <td><?= $appointment->customer_id ?></td>
-                            <td><?= $appointment->service_id ?></td>
+                            <td><?= $appointment->name ?></td>
+                            <td><?= $appointment->service_name ?> - &#8369;<?= $appointment->service_price ?></td>
                             <td><?= $appointment->status ?></td>
                             <td><?= $appointment->date_appointment ?></td>
                             <td><?= $appointment->date_created ?></td>
@@ -62,9 +66,14 @@ require_once 'vendor/autoload.php';
                                     <div class="uk-modal-dialog">
                                         <button class="uk-modal-close-default" type="button" uk-close=""></button>
                                         <div class="uk-modal-header">
-                                            <h2 class="uk-modal-title">Set appointment on <?= date("F d, Y, l", strtotime($appointment->date_appointment))?></h2>
+                                            <h2 class="uk-modal-title">Set appointment on <?= $date ?></h2>
                                         </div>
                                         <div class="uk-modal-body">
+                                            <?php 
+                                            
+                                                $action = "appointment_edit.php?date_appointment=$date";
+                                            
+                                            ?>
                                             <?php include "assets/components/form/appointment_add.php"; ?>
                                         </div>
                                     </div>

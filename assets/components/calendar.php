@@ -92,7 +92,7 @@
                                         <?php else : ?>
                                                 <a class="calendar-day-link" href="#modal-container-<?= $day_count?>" uk-toggle>
                                                     <div><?= $day_count ?></div>
-                                                    <div>slots available</div>
+                                                    <!-- <div>slots available</div> -->
                                                 </a>
 
                                                 <div id="modal-container-<?= $day_count?>" class="uk-modal-container" uk-modal>

@@ -3,6 +3,7 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
+require_once 'redirect.php';
 
 ?>
 
@@ -17,62 +18,41 @@ require_once "assets/components/head.php";
 ?>
 
 <body>
-    <?php 
-        require_once "assets/components/nav.php";
 
-        if ($_SESSION['REQUEST_METHOD'] == "POST") {
-            $name           = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $description    = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $price          = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT);
+<?php 
 
-            $sql = "INSERT INTO services (name, description, price) VALUES (?, ?, ?)";
-            $values = [$name, $description, $price];
-            execute($sql, $values);
-        }
-    ?>
+    $date       = filter_var($_GET['date_appointment'], FILTER_SANITIZE_STRING) ?? null;
+    $name       = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    $email      = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+    $mobile     = filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_STRING);
+    $service_id = filter_input(INPUT_POST, 'service_id', FILTER_SANITIZE_STRING);
 
-    <div class="uk-container" style="border: 1px solid red;">
-        <form action="">
-            <h2>Create new Service</h2>
+    $sql = "SELECT id FROM customer WHERE name = ? AND email = ? AND mobile = ? LIMIT 1"; 
+    $values = [$name, $email, $mobile];
+    $customer = execute($sql, $values)->fetch();
 
-            <div>
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name">
-            </div>
-            <div>
-                <label for="description">description</label>
-                <textarea name="description" id="description"></textarea>
-            </div>
-            <div>
-                <label for="price">Price</label>
-                <input type="number" name="price" id="price" step="0.01" min="0">
-            </div>
-            <div>
-                <input type="submit" value="Appoint of date_appointment">
-            </div>
-        </form>
-    </div>
-    <div class="uk-section">
-        footer links and etc
+    if (!$customer) {
+        $sql = "INSERT INTO customer (name, email, mobile) VALUES (?, ?, ?)";
+        $values = [$name, $email, $mobile];
+        execute($sql, $values);
 
-        <form action="" method="POST">
-            <div>
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username">
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password">
-            </div>
-            <div>
-                <input type="submit" value="Login" name="login">
-            </div>
-        </form>
-    </div>
-    <?php 
-    
-        require_once "assets/components/footer.php";
+        $sql = "SELECT id FROM customer WHERE name = ? AND email = ? AND mobile = ? LIMIT 1"; 
+        $values = [$name, $email, $mobile];
+        $customer = execute($sql, $values)->fetch();
+    }
 
-    ?>
-</body>
-</html>
+    $customer_id = $customer->id;
+
+    $token = bin2hex(random_bytes(3)) ?? $_POST['appointment_token'];
+
+    $sql = "INSERT INTO appointment (
+                token,
+                customer_id, 
+                service_id, 
+                status, 
+                date_appointment) 
+            VALUES (?, ?, ?, ?, ?)"; 
+    $values = [$token, $customer_id, $service_id, "pending", $date];
+    execute($sql, $values);
+    header("location: appointment_index.php?token=$token");
+?>

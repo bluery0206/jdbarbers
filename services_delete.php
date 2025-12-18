@@ -3,6 +3,7 @@ session_start();
 
 require_once "db.php";
 require_once 'vendor/autoload.php';
+require_once 'redirect.php';
 
 // Get service ID from query parameter
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
