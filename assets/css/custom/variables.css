@@ -1,8 +1,8 @@
 :root {
     --dark: rgb(80, 80, 80);
     --white: rgb(232, 230, 230);
-    --danger: rgb(207, 96, 96);
-    --success: rgb(113, 170, 117);
-    --warning: rgb(193, 202, 67);
-    --muted: rgb(150, 150, 150);
+    --danger: rgba(207, 96, 96, 0.346);
+    --success: rgba(113, 170, 117, 0.328);
+    --warning: rgba(208, 221, 28, 0.303);
+    --muted: rgb(194, 194, 194);
 }

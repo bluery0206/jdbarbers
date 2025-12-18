@@ -51,11 +51,27 @@ $close_dates = execute($sql)->fetchAll();
                 <td><?= $close_date->customer_id ?></td>
                 <td><?= $close_date->service_id ?></td>
                 <td><?= $close_date->status ?></td>
-                <td><?= $close_date->date_appointmtent ?></td>
+                <td><?= $close_date->date_appointment ?></td>
                 <td><?= $close_date->date_created ?></td>
                 <td><?= $close_date->date_updated ?></td>
                 <td>
-                    <a href="appointment_edit.php?id=<?= $close_date->id ?>">Edit</a>
+                    <a class="calendar-day-link" href="#modal-container-<?= $day_count?>" uk-toggle>
+                        <div><?= $day_count ?></div>
+                        <div>slots available</div>
+                    </a>
+
+                    <div id="modal-container-<?= $day_count?>" class="uk-modal-container" uk-modal>
+                        <div class="uk-modal-dialog">
+                            <button class="uk-modal-close-default" type="button" uk-close=""></button>
+                            <div class="uk-modal-header">
+                                <h2 class="uk-modal-title">Set appointment on <?= date("F d, Y, l", strtotime($close_date->date_appointment))?></h2>
+                            </div>
+                            <div class="uk-modal-body">
+                                <?php include "assets/components/form/appointment_add.php"; ?>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <a href="appointment_delete.php?id=<?= $close_date->id ?>">Delete</a>
                 </td>
             </tr>

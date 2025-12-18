@@ -50,7 +50,7 @@ require_once "assets/components/calendar.php";
                     <div>
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-media-top">
-                                <img src="assets/images/services/haircut.png" width="1800" height="1200" alt="">
+                                <img src="assets/images/services/haircut.png" width="1800" height="1200" alt="" loading="lazy">
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">Haircut</h3>
@@ -65,14 +65,14 @@ require_once "assets/components/calendar.php";
                                 <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p> -->
                             </div>
                             <div class="uk-card-media-bottom">
-                                <img src="assets/images/services/shaving.png" width="1800" height="1200" alt="">
+                                <img src="assets/images/services/shaving.png" width="1800" height="1200" alt="" loading="lazy">
                             </div>
                         </div>
                     </div>
                     <div>
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-media-top">
-                                <img src="assets/images/services/trim.png" width="1800" height="1200" alt="">
+                                <img src="assets/images/services/trim.png" width="1800" height="1200" alt="" loading="lazy">
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">Trim</h3>

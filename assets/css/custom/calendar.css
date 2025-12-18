@@ -1,21 +1,18 @@
 
 .calendar-table {
-    /* outline: 2px solid red; */
     border-collapse: collapse;
     width: 100%;
 }
 
 .calendar-table td, th {
     border: 1px solid var(--dark);
-    padding: 5px 7px;
+    /* padding: 5px 7px; */
     text-align: center;
     height: 50px;
-    width: 100px;
 }
 
 .calendar-day-unavailable {
     background: var(--danger);
-    color: var(--white);
     cursor: not-allowed;
 }
 .calendar-day-past {
@@ -24,11 +21,9 @@
 }
 .calendar-day-available {
     background: var(--success);
-    color: var(--white);
 }
 .calendar-day-current {
     background: var(--warning);
-    color: var(--white);
 }
 
 .calendar-day-link {
@@ -38,7 +33,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
     row-gap: 5px;
     flex-direction: column;
 }
