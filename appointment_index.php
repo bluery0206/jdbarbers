@@ -93,7 +93,10 @@ require_once 'redirect.php';
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_created)) ?></td>
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_updated)) ?></td>
                             <td class="uk-button-group uk-flex uk-flex-right">
-                                <?php if ($appointment->status == "pending") :?>
+                                
+                                <!-- Show different buttons per status -->
+                                <?php if (!in_array($appointment->status, ["confirmed", "rejected"])) :?>
+                                
                                     <a class="uk-button uk-button-primary uk-button-small uk-flex uk-flex-middle" 
                                         href="appointment_confirm.php?id=<?= $appointment->id ?>">
                                         <span class="uk-text-small"uk-icon="check"></span>
@@ -104,7 +107,25 @@ require_once 'redirect.php';
                                         <span class="uk-text-small"uk-icon="close"></span>
                                         Reject
                                     </a>
+                                
+                                <?php elseif (in_array($appointment->status, ["pending", "rejected"])) :?>
+                                
+                                    <a class="uk-button uk-button-primary uk-button-small uk-flex uk-flex-middle" 
+                                        href="appointment_confirm.php?id=<?= $appointment->id ?>">
+                                        <span class="uk-text-small"uk-icon="check"></span>
+                                        Confirm
+                                    </a>
+                                
+                                <?php elseif (in_array($appointment->status, ["pending", "confirmed"])) :?>
+                                    <a class="uk-button uk-button-small uk-flex uk-flex-middle" 
+                                
+                                        href="appointment_reject.php?id=<?= $appointment->id ?>">
+                                        <span class="uk-text-small"uk-icon="close"></span>
+                                        Reject
+                                    </a>
+                                
                                 <?php endif ?>
+
                                 <a class="uk-button uk-button-small uk-flex uk-flex-middle" href="#modal-container-<?= $appointment->id ?>" uk-toggle>
                                     <span class="uk-text-small"uk-icon="file-edit"></span>
                                     <div>Edit</div>
