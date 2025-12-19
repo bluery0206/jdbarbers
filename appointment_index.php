@@ -12,7 +12,7 @@ require_once 'redirect.php';
 
 <?php 
 
-    $page_title = "Home";
+    $page_title = "Appointments";
     require_once "assets/components/head.php";
 
 ?>
@@ -23,7 +23,24 @@ require_once 'redirect.php';
 
     require_once "assets/components/nav.php";
 
-    $sql = "SELECT AP.*, S.name AS service_name, S.price AS service_price, C.name FROM services S, appointment AP, customer C";
+    $sql = "SELECT 
+                AP.*, 
+                S.name AS service_name, 
+                S.price AS service_price, 
+                C.name,
+                C.email,
+                C.mobile
+            FROM 
+                appointment AP
+            INNER JOIN 
+                services S
+            ON 
+                AP.service_id = S.id
+            INNER JOIN 
+                customer C
+            ON 
+                AP.customer_id = C.id";
+
     $appointments = execute($sql)->fetchAll();
 
 ?>
@@ -31,37 +48,59 @@ require_once 'redirect.php';
 <div class="uk-container uk-margin">
     <?php if ($appointments) : ?>
         <div class="uk-overflow-auto ">
-            <table class="uk-table uk-table-responsive uk-table-divider">
+            <h2>Appointments</h2>
+            <table class="uk-table uk-table-divider uk-table-striped uk-table-hover uk-table-small">
                 <thead>
                     <tr>
-                        <th>Customer</th>
+                        <th class="uk-table-shrink">Customer</th>
                         <th>Service</th>
-                        <th>Status</th>
-                        <th>Appointment</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                        <th>Actions</th>
+                        <th class="uk-table-shrink uk-text-center">Status</th>
+                        <th class="uk-table-shrink">Appointment</th>
+                        <th class="uk-table-shrink">Created</th>
+                        <th class="uk-table-shrink">Updated</th>
+                        <th class="uk-table-shrink uk-text-right uk-text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($appointments as $appointment) : ?>
                         <?php 
-                        
+
                             $date = date("F d, Y, l", strtotime($appointment->date_appointment));
-                            
+
                         ?>
                         <tr>
-                            <td><?= $appointment->name ?></td>
+                            <td class="uk-text-nowrap"><?= $appointment->name ?></td>
                             <td><?= $appointment->service_name ?> - &#8369;<?= $appointment->service_price ?></td>
-                            <td><?= $appointment->status ?></td>
-                            <td><?= $appointment->date_appointment ?></td>
-                            <td><?= $appointment->date_created ?></td>
-                            <td><?= $appointment->date_updated ?></td>
-                            <td>
-                                <a class="calendar-day-link" href="#modal-container-<?= $appointment->id ?>" uk-toggle>
+                            <td class="uk-flex uk-flex-center">
+                                <?php if ($appointment->status == "rejected" ) : ?>
+                                    <button class="uk-button uk-button-danger uk-button-small" disabled><?= $appointment->status ?></button>
+                                <?php else : ?>
+                                    <button class="uk-button uk-button-danger uk-button-small" disabled><?= $appointment->status ?></button>
+                                <?php endif ?>
+                            </td>
+                            <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_appointment)) ?></td>
+                            <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_created)) ?></td>
+                            <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_updated)) ?></td>
+                            <td class="uk-button-group uk-flex uk-flex-right">
+                                <?php if ($appointment->status == "pending") :?>
+                                    <?php if ($appointment->status != "confirmed") : ?>
+                                        <a class="uk-button uk-button-primary uk-button-small uk-flex uk-flex-middle" 
+                                            href="appointment_confirm.php?id=<?= $appointment->id ?>">
+                                            <span class="uk-text-small"uk-icon="check"></span>
+                                            Confirm
+                                        </a>
+                                    <?php elseif ($appointment->status != "rejected") : ?>
+                                        <a class="uk-button uk-button-small uk-flex uk-flex-middle" 
+                                            href="appointment_reject.php?id=<?= $appointment->id ?>">
+                                            <span class="uk-text-small"uk-icon="close"></span>
+                                            Reject
+                                        </a>
+                                    <?php endif ?>
+                                <?php endif ?>
+                                <a class="uk-button uk-button-small uk-flex uk-flex-middle" href="#modal-container-<?= $appointment->id ?>" uk-toggle>
+                                    <span class="uk-text-small"uk-icon="file-edit"></span>
                                     <div>Edit</div>
                                 </a>
-
                                 <div id="modal-container-<?= $appointment->id ?>" class="uk-modal-container" uk-modal>
                                     <div class="uk-modal-dialog">
                                         <button class="uk-modal-close-default" type="button" uk-close=""></button>
@@ -71,15 +110,18 @@ require_once 'redirect.php';
                                         <div class="uk-modal-body">
                                             <?php 
                                             
-                                                $action = "appointment_edit.php?date_appointment=$date";
+                                                $action = "appointment_edit.php?id=$appointment->id";
                                             
                                             ?>
-                                            <?php include "assets/components/form/appointment_add.php"; ?>
+                                            <?php include "assets/components/form/appointment.php"; ?>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <a href="appointment_delete.php?id=<?= $appointment->id ?>">Delete</a>
+                                <a class="uk-button uk-button-danger uk-button-small uk-flex uk-flex-middle" 
+                                    href="close_dates_delete.php?id=<?= $appointment->id ?>">
+                                    <span uk-icon="trash"></span>
+                                    Delete
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -91,11 +133,5 @@ require_once 'redirect.php';
     <?php endif ?>
 </div>
 
-
-<?php 
-
-    require_once "assets/components/footer.php";
-
-?>
 </body>
 </html>

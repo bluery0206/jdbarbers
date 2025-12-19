@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2025 at 10:02 AM
+-- Generation Time: Dec 19, 2025 at 01:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `appointment` (
   `id` int(11) NOT NULL,
+  `token` varchar(6) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
   `status` varchar(25) NOT NULL,
@@ -40,25 +41,18 @@ CREATE TABLE `appointment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `calendar`
+-- Table structure for table `close_dates`
 --
 
-CREATE TABLE `calendar` (
+CREATE TABLE `close_dates` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `date_close` datetime NOT NULL,
+  `date_close` date NOT NULL,
+  `time_start` time NOT NULL,
+  `time_end` time NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   `date_updated` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `calendar`
---
-
-INSERT INTO `calendar` (`id`, `user_id`, `date_close`, `date_created`, `date_updated`) VALUES
-(1, 1, '2025-12-17 15:12:31', '2025-12-16 15:12:51', '2025-12-16 15:12:51'),
-(2, 1, '2025-12-18 15:15:20', '2025-12-16 15:15:25', '2025-12-16 15:15:25'),
-(4, 1, '2025-11-11 15:17:34', '2025-12-16 15:17:40', '2025-12-16 15:17:40');
 
 -- --------------------------------------------------------
 
@@ -88,17 +82,6 @@ CREATE TABLE `log` (
   `action` varchar(25) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `log`
---
-
-INSERT INTO `log` (`id`, `user_id`, `category`, `action`, `date_created`) VALUES
-(1, 1, 'user', 'login', '2025-12-16 15:49:53'),
-(2, 1, 'user', 'login', '2025-12-16 15:51:10'),
-(3, 1, 'user', 'login', '2025-12-16 15:51:25'),
-(4, 1, 'user', 'login', '2025-12-16 15:51:32'),
-(5, 1, 'user', 'login', '2025-12-16 16:02:58');
 
 -- --------------------------------------------------------
 
@@ -145,14 +128,15 @@ INSERT INTO `users` (`id`, `username`, `password`, `is_admin`, `date_created`, `
 -- Indexes for table `appointment`
 --
 ALTER TABLE `appointment`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token` (`token`);
 
 --
--- Indexes for table `calendar`
+-- Indexes for table `close_dates`
 --
-ALTER TABLE `calendar`
+ALTER TABLE `close_dates`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `date_close` (`date_close`);
+  ADD UNIQUE KEY `date_close` (`date_close`,`time_start`,`time_end`);
 
 --
 -- Indexes for table `customer`
@@ -191,10 +175,10 @@ ALTER TABLE `appointment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `calendar`
+-- AUTO_INCREMENT for table `close_dates`
 --
-ALTER TABLE `calendar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `close_dates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -206,7 +190,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `services`

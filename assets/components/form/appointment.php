@@ -41,7 +41,7 @@
                             <?= $appointment->service_id == $jbas_service->id ? "selected" : "" ?>
                         <?php endif ?>
                     >
-                        <?= $jbas_service->name ?> - &#8369;<?= $jbas_service->price ?>
+                        <?= $jbas_service->name ?> (&#8369;<?= $jbas_service->price ?>) - <?= $jbas_service->description ?>
                     </option>
                 <?php endforeach?>
             </select>

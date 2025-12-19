@@ -3,13 +3,10 @@
 session_start();
 
 require_once "db.php";
+require_once "vendor/autoload.php";
 
 if ($_SESSION["user"] && $_SESSION['session_token']) {
-    // Query to get the user log he haven't logged out yet
-    $sql    = "UPDATE user_log SET time_out = CURTIME() 
-                WHERE session_token = ?";
-    $values = [$_SESSION["session_token"]];
-    execute($sql, $values);
+    sys_log($_SESSION["user"]->id, "user", "logout");
 }
 
 // Destroy session safely

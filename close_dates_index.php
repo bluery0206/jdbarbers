@@ -12,7 +12,7 @@ require_once 'redirect.php';
 
 <?php 
 
-$page_title = "Home";
+$page_title = "Close Dates";
 require_once "assets/components/head.php";
 
 ?>
@@ -28,42 +28,88 @@ require_once "assets/components/head.php";
 
 ?>
 
-<a href="close_dates_add.php">Add New Service</a>
+<div class="uk-container uk-margin">
+    <?php if ($jbas_close_dates) : ?>
+        <div class="uk-overflow-auto ">
+            <div class="uk-flex uk-flex-between uk-flex-middle">
+                <h2>Close Dates</h2>
+                <a class="uk-button uk-button-primary" href="#modal-container-new" uk-toggle>
+                    <div>Add New</div>
+                </a>
+                <div id="modal-container-new" class="uk-modal-container" uk-modal>
+                    <div class="uk-modal-dialog">
+                        <button class="uk-modal-close-default" type="button" uk-close=""></button>
+                        <div class="uk-modal-header">
+                            <h2 class="uk-modal-title">Add New Close Dates</h2>
+                        </div>
+                        <div class="uk-modal-body">
+                            <?php 
+                            
+                                $action = "close_dates_add.php";
+                            
+                            ?>
+                            <?php include "assets/components/form/close_dates.php"; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="uk-table uk-table-divider uk-table-striped uk-table-hover uk-table-small">
+                <thead>
+                    <tr>
+                        <!-- <th class="uk-table-shrink">Status</th> -->
+                        <th class="uk-table-shrink">Close</th>
+                        <th class="uk-table-shrink">Time Start</th>
+                        <th class="uk-table-shrink">Time End</th>
+                        <th class="uk-table-shrink">Created</th>
+                        <th class="uk-table-shrink">Updated</th>
+                        <th class="uk-table-shrink uk-text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($jbas_close_dates as $close_date) : ?>
+                        <tr> 
+ 
+                            <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($close_date->date_close)) ?></td>
+                            <td class="uk-text-nowrap"><?= date("h:i A", strtotime($close_date->time_start)) ?></td>
+                            <td class="uk-text-nowrap"><?= date("h:i A", strtotime($close_date->time_end)) ?></td>
+                            <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($close_date->date_created)) ?></td>
+                            <td class="uk-table-shrink"><?= date("M d, Y", strtotime($close_date->date_updated)) ?></td>
+                            <td class="uk-button-group uk-flex uk-flex-center">
+                                <a class="uk-button uk-button-small uk-flex uk-flex-middle" href="#modal-container-<?= $close_date->id ?>" uk-toggle>
+                                    <span class="uk-text-small"uk-icon="file-edit"></span>
+                                    <div>Edit</div>
+                                </a>
+                                <div id="modal-container-<?= $close_date->id ?>" class="uk-modal-container" uk-modal>
+                                    <div class="uk-modal-dialog">
+                                        <button class="uk-modal-close-default" type="button" uk-close=""></button>
+                                        <div class="uk-modal-header">
+                                            <h2 class="uk-modal-title">Edit Close Date</h2>
+                                        </div>
+                                        <div class="uk-modal-body">
+                                            <?php 
+                                            
+                                                $action = "close_dates_edit.php?id=$close_date->id";
+                                            
+                                            ?>
+                                            <?php include "assets/components/form/close_dates.php"; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="uk-button uk-button-danger uk-button-small uk-flex uk-flex-middle" 
+                                    href="close_dates_delete.php?id=<?= $close_date->id ?>">
+                                    <span uk-icon="trash"></span>
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+    <?php else: ?>
+        <h1>No close dates yet</h1>
+    <?php endif ?>
+</div>
 
-<?php if ($jbas_close_dates) : ?>
-    <table border="1">
-        <tr>
-            <th>id</th>
-            <th>user_id</th>
-            <th>date_close</th>
-            <th>time_start</th>
-            <th>time_end</th>
-            <th>date_created</th>
-            <th>date_updated</th>
-            <th>actions</th>
-        </tr>
-        <?php foreach ($jbas_close_dates as $service) : ?>
-            <tr>
-                <td><?= $service->id ?></td>
-                <td><?= $service->user_id ?></td>
-                <td><?= $service->date_close ?></td>
-                <td><?= $service->time_start ?></td>
-                <td><?= $service->time_end ?></td>
-                <td><?= $service->date_created ?></td>
-                <td><?= $service->date_updated ?></td>
-                <td>
-                    <a href="close_dates_edit.php?id=<?= $service->id ?>">Edit</a>
-                    <a href="close_dates_delete.php?id=<?= $service->id ?>">Delete</a>
-                </td>
-            </tr>
-        <?php endforeach ?>
-    </table>
-<?php endif?>
-
-<?php 
-
-    require_once "assets/components/footer.php";
-
-?>
 </body>
 </html>

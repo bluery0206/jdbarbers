@@ -107,7 +107,7 @@
                                                                 $action = "appointment_add.php?date_appointment=$date";
                                                             
                                                             ?>
-                                                            <?php include "assets/components/form/appointment_add.php"; ?>
+                                                            <?php include "assets/components/form/appointment.php"; ?>
                                                         </div>
                                                     </div>
                                                 </div>

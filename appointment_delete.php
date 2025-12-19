@@ -43,4 +43,4 @@ if (!$customer_exists) {
     echo "customer_deleted: "; var_dump($customer_deleted); echo "<br>";
 }
 
-// header("location: appointment_check.php?token=$token");
+header("location: appointment_index.php");

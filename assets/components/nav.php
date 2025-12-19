@@ -10,17 +10,21 @@
                             JDBarbers
                         </a>
                     </div>
-
+                        
                     <!-- Left Navigation -->
                     <div class="uk-navbar-<?= isAuthorized() ? 'center' : 'right' ?>">
 
                         <!-- Navigation -->
                         <ul class="uk-navbar-nav">
+                            <?php if (isViewActive("index")) :?>
 
-                            <li><a href="#calendar" uk-scroll>Calendar</a></li>
-                            <li><a href="#status" uk-scroll>Appointment Status</a></li>
-                            <li><a href="#location" uk-scroll>Location</a></li>
+                                <li><a href="#calendar" uk-scroll>Calendar</a></li>
+                                <li><a href="#status" uk-scroll>Appointment Status</a></li>
+                                <li><a href="#location" uk-scroll>Location</a></li>
 
+                            <?php else : ?>
+                                <li><a href="index.php">Home</a></li>
+                            <?php endif ?>
                         </ul>
                     </div>
 
@@ -28,13 +32,13 @@
                     <?php if (isAuthorized()) :?>
                         <div class="uk-navbar-right">
                             <ul class="uk-navbar-nav">
-                                <li>
+                                <li <?= isViewActive(["appointment_index", "close_dates_index", "services_index"]) ? "class='uk-active'" : "" ?>>
                                     <a href="#">Manage</a>
                                     <div class="uk-navbar-dropdown">
                                         <ul class="uk-nav uk-navbar-dropdown-nav">
                                             <li <?= isViewActive("appointment_index") ? "class='uk-active'" : "" ?>><a href="appointment_index.php">Appointments</a></li>
-                                            <li <?= isViewActive("close_dates") ? "class='uk-active'" : "" ?>><a href="close_dates_index.php">Close Dates</a></li>
-                                            <li <?= isViewActive("services") ? "class='uk-active'" : "" ?>><a href="services_index.php">Services</a></li>
+                                            <li <?= isViewActive("close_dates_index") ? "class='uk-active'" : "" ?>><a href="close_dates_index.php">Close Dates</a></li>
+                                            <li <?= isViewActive("services_index") ? "class='uk-active'" : "" ?>><a href="services_index.php">Services</a></li>
                                         </ul>
                                     </div>
                                 </li>

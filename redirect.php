@@ -5,7 +5,7 @@ if (in_array(session_status(), [0, 1])) {
 }
 
 if (!isset($_SESSION['user'])) {
-    header("localtion: index.php");
+    header("location: index.php");
 }
 
 $sql = "SELECT is_admin FROM users WHERE id = ?";

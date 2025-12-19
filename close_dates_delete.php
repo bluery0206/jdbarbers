@@ -7,23 +7,25 @@ require_once 'redirect.php';
 
 // Get service ID from query parameter
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+echo "id: "; var_dump($id); echo "<br>";
 
 if (!$id) {
-    header("Location: services_index.php");
+    header("Location: close_dates_index.php");
     exit;
 }
 
 // Get the service details
-$sql = "SELECT * FROM services WHERE id = ?";
+$sql = "SELECT * FROM close_dates WHERE id = ?";
 $values = [$id];
-$service = execute($sql, $values)->fetch();
+$close_date = execute($sql, $values)->fetch();
+echo "close_date: "; var_dump($close_date); echo "<br>";
 
-if (!$service) {
-    header("Location: services_index.php");
+if (!$close_date) {
+    header("Location: close_dates_index.php");
     exit;
 }
 
-$sql = "DELETE FROM services WHERE id = ?";
+$sql = "DELETE FROM close_dates WHERE id = ?";
 $values = [$id];
-execute($sql, $values);
-header("Location: services_index.php");
+// execute($sql, $values);
+// header("Location: close_dates_index.php");

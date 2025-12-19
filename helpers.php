@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Exceptions\InvalidTypeException;
+
 /**
  * Redirect the client to a public PHP page.
  *
@@ -81,16 +83,38 @@ function asset(string $relativePath): string {
  * @param string $returnOnTrue
  * @return string
  */
-function isViewActive(string $view, string $returnOnTrue = "active"): string {
+function isViewActive(string|array $view, string $returnOnTrue = "active"): string {
+    $is_active = NULL;
+    $type = gettype($view);
+    // echo "is_active: "; var_dump($is_active); echo "<br>";
+    // echo "type: "; var_dump($type); echo "<br>";
+
     try {
-        $route = route($view);
+        if ($type == "string") {
+            $route = route($view);
+            $viewName = pathinfo($route, PATHINFO_FILENAME);
+            $currentViewName = pathinfo($_SERVER["PHP_SELF"], PATHINFO_FILENAME);
+            $is_active = $currentViewName == $viewName ;
+        }
+        elseif ($type == "array") {
+            foreach ($view as $v) {
+                $route = route($v);
+                $vName = pathinfo($route, PATHINFO_FILENAME);
+                $currentvName = pathinfo($_SERVER["PHP_SELF"], PATHINFO_FILENAME);
+
+                if ($currentvName == $vName) {
+                    $is_active = TRUE;
+                    break;
+                }
+            }
+        } else {
+            throw new InvalidTypeException();
+        }
     } catch (Exception $e) {
         return "";
     }
 
-    $viewName = pathinfo($route, PATHINFO_FILENAME);
-    $currentViewName = pathinfo($_SERVER["PHP_SELF"], PATHINFO_FILENAME);
-    return $currentViewName == $viewName ? $returnOnTrue : "" ;
+    return $is_active ? $returnOnTrue : "" ;
 }
 
 
@@ -188,4 +212,13 @@ function isAuthorized($user = null) {
     }
 
     return isset($_SESSION["user"]);
+}
+
+
+
+function sys_log($user_id = '', $category, $action) {
+    $sql    = "INSERT INTO log (user_id, category, action, date_created) 
+                VALUES (?, ?, ?, CURTIME());";
+    $values = [$user_id, $category, $action];
+    execute($sql, $values);
 }
