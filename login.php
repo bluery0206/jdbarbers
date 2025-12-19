@@ -2,9 +2,11 @@
 
 session_start();
 
-require_once "../../db.php";
-require_once '../../vendor/autoload.php';
-require_once '../../redirect.php';
+require_once "db.php";
+require_once 'redirect.php';
+require_once "config.php";
+require_once "helpers.php";
+
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["login"])) {
@@ -26,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 sys_log($user->id, "user", "login");
     
                 $_SESSION["user"] = $user;
-                header("location: ../../index.php");
+                header("location: index.php");
             } else {
                 // Says the same thing regardless if the
                 // user doesnt exists or the password is wrong for security reasons

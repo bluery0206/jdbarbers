@@ -1,4 +1,4 @@
-<form method="POST" class="uk-form-horizontal" action="assets/includes/login.includes.php">
+<form method="POST" class="uk-form-horizontal" action="login.php">
     <legend class="uk-legend">Login</legend>
 
     <?php if (isset($error)): ?>

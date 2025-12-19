@@ -3,7 +3,8 @@
 session_start();
 
 require_once "db.php";
-require_once 'vendor/autoload.php';
+require_once "config.php";
+require_once "helpers.php";
 require_once 'redirect.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);

@@ -3,7 +3,7 @@
         <label class="uk-form-label" for="form-stacked-name-<?= $day_count ?>">Name</label>
         <div class="uk-form-controls">
             <input class="uk-input" id="form-stacked-name-<?= $day_count ?>" type="text" 
-                name="name" id="name" value="<?= $appointment->name ?? "" ?>" placeholder="Juan Dela Cruz" >
+                name="name" id="name" value="<?= $appointment->name ?? "" ?>" placeholder="Juan Dela Cruz" required>
         </div>
     </div>
 

@@ -2,7 +2,8 @@
 session_start();
 
 require_once "db.php";
-require_once 'vendor/autoload.php';
+require_once "config.php";
+require_once "helpers.php";
 require_once 'redirect.php';
 
 ?>
@@ -68,34 +69,41 @@ require_once 'redirect.php';
                             $date = date("F d, Y, l", strtotime($appointment->date_appointment));
 
                         ?>
-                        <tr>
+                        <tr class="
+                            <?php if ($appointment->status == "rejected" ) : ?>
+                                uk-text-danger
+                            <?php elseif ($appointment->status == "confirmed" ) : ?>
+                                uk-text-primary
+                            <?php else : ?>
+                                uk-text-muted
+                            <?php endif ?>">
                             <td class="uk-text-nowrap"><?= $appointment->name ?></td>
                             <td><?= $appointment->service_name ?> - &#8369;<?= $appointment->service_price ?></td>
-                            <td class="uk-flex uk-flex-center">
+                            <td class="uk-flex uk-flex-center
                                 <?php if ($appointment->status == "rejected" ) : ?>
-                                    <button class="uk-button uk-button-danger uk-button-small" disabled><?= $appointment->status ?></button>
+                                    uk-text-danger
+                                <?php elseif ($appointment->status == "confirmed" ) : ?>
+                                    uk-text-primary
                                 <?php else : ?>
-                                    <button class="uk-button uk-button-danger uk-button-small" disabled><?= $appointment->status ?></button>
-                                <?php endif ?>
+                                    uk-text-muted
+                                <?php endif ?>">
+                                <?= $appointment->status ?>
                             </td>
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_appointment)) ?></td>
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_created)) ?></td>
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_updated)) ?></td>
                             <td class="uk-button-group uk-flex uk-flex-right">
                                 <?php if ($appointment->status == "pending") :?>
-                                    <?php if ($appointment->status != "confirmed") : ?>
-                                        <a class="uk-button uk-button-primary uk-button-small uk-flex uk-flex-middle" 
-                                            href="appointment_confirm.php?id=<?= $appointment->id ?>">
-                                            <span class="uk-text-small"uk-icon="check"></span>
-                                            Confirm
-                                        </a>
-                                    <?php elseif ($appointment->status != "rejected") : ?>
-                                        <a class="uk-button uk-button-small uk-flex uk-flex-middle" 
-                                            href="appointment_reject.php?id=<?= $appointment->id ?>">
-                                            <span class="uk-text-small"uk-icon="close"></span>
-                                            Reject
-                                        </a>
-                                    <?php endif ?>
+                                    <a class="uk-button uk-button-primary uk-button-small uk-flex uk-flex-middle" 
+                                        href="appointment_confirm.php?id=<?= $appointment->id ?>">
+                                        <span class="uk-text-small"uk-icon="check"></span>
+                                        Confirm
+                                    </a>
+                                    <a class="uk-button uk-button-small uk-flex uk-flex-middle" 
+                                        href="appointment_reject.php?id=<?= $appointment->id ?>">
+                                        <span class="uk-text-small"uk-icon="close"></span>
+                                        Reject
+                                    </a>
                                 <?php endif ?>
                                 <a class="uk-button uk-button-small uk-flex uk-flex-middle" href="#modal-container-<?= $appointment->id ?>" uk-toggle>
                                     <span class="uk-text-small"uk-icon="file-edit"></span>
@@ -118,7 +126,7 @@ require_once 'redirect.php';
                                     </div>
                                 </div>
                                 <a class="uk-button uk-button-danger uk-button-small uk-flex uk-flex-middle" 
-                                    href="close_dates_delete.php?id=<?= $appointment->id ?>">
+                                    href="appointment_delete.php?id=<?= $appointment->id ?>">
                                     <span uk-icon="trash"></span>
                                     Delete
                                 </a>
@@ -129,7 +137,7 @@ require_once 'redirect.php';
             </table>
         </div>
     <?php else: ?>
-        <h1>No appointments yet</h1>
+        <h1 class="uk-text-center">No appointments yet</h1>
     <?php endif ?>
 </div>
 

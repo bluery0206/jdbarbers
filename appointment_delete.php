@@ -2,7 +2,8 @@
 session_start();
 
 require_once "db.php";
-require_once 'vendor/autoload.php';
+require_once "config.php";
+require_once "helpers.php";
 require_once 'redirect.php';
 
 $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -14,7 +15,7 @@ $appointment = execute($sql, $values)->fetch(PDO::FETCH_COLUMN);
 // var_dump($appointment);
 
 if (!$appointment) {
-    // header("location: appointment_index.php");
+    header("location: appointment_index.php");
 }
 
 // Getting the customer ID so that we can delete the user if he doesnt have any appointments
@@ -26,7 +27,7 @@ $customer_id = execute($sql, $values)->fetch();
 
 $sql = "DELETE FROM appointment WHERE id = ?";
 $values = [$id];
-// execute($sql, $values);
+execute($sql, $values);
 
 // var_dump($sql);
 

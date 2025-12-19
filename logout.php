@@ -3,7 +3,8 @@
 session_start();
 
 require_once "db.php";
-require_once "vendor/autoload.php";
+require_once "config.php";
+require_once "helpers.php";
 
 if ($_SESSION["user"] && $_SESSION['session_token']) {
     sys_log($_SESSION["user"]->id, "user", "logout");

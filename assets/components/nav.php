@@ -1,5 +1,5 @@
 
-    <div uk-sticky="animation: uk-animation-slide-top; sel-target: .uk-navbar-container;">
+    <div uk-sticky="show-on-up: true; animation: uk-animation-slide-top; sel-target: .uk-navbar-container;">
 
         <nav class="uk-navbar-container">
             <div class="uk-container">

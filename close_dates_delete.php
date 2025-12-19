@@ -2,7 +2,8 @@
 session_start();
 
 require_once "db.php";
-require_once 'vendor/autoload.php';
+require_once "config.php";
+require_once "helpers.php";
 require_once 'redirect.php';
 
 // Get service ID from query parameter
@@ -27,5 +28,5 @@ if (!$close_date) {
 
 $sql = "DELETE FROM close_dates WHERE id = ?";
 $values = [$id];
-// execute($sql, $values);
-// header("Location: close_dates_index.php");
+execute($sql, $values);
+header("Location: close_dates_index.php");

@@ -2,7 +2,8 @@
 session_start();
 
 require_once "db.php";
-require_once 'vendor/autoload.php';
+require_once "config.php";
+require_once "helpers.php";
 require_once 'redirect.php';
 
 ?>
@@ -29,30 +30,30 @@ require_once "assets/components/head.php";
 ?>
 
 <div class="uk-container uk-margin">
-    <?php if ($jbas_services) : ?>
-        <div class="uk-overflow-auto ">
-            <div class="uk-flex uk-flex-between uk-flex-middle">
-                <h2>Services</h2>
-                <a class="uk-button uk-button-primary" href="#modal-container-new" uk-toggle>
-                    <div>Add new</div>
-                </a>
-                <div id="modal-container-new" class="uk-modal-container" uk-modal>
-                    <div class="uk-modal-dialog">
-                        <button class="uk-modal-close-default" type="button" uk-close=""></button>
-                        <div class="uk-modal-header">
-                            <h2 class="uk-modal-title">Add New Service</h2>
-                        </div>
-                        <div class="uk-modal-body">
-                            <?php 
-                            
-                                $action = "services_add.php";
-                            
-                            ?>
-                            <?php include "assets/components/form/services.php"; ?>
-                        </div>
+    <div class="uk-overflow-auto ">
+        <div class="uk-flex uk-flex-between uk-flex-middle">
+            <h2>Services</h2>
+            <a class="uk-button uk-button-primary" href="#modal-container-new" uk-toggle>
+                <div>Add new</div>
+            </a>
+            <div id="modal-container-new" class="uk-modal-container" uk-modal>
+                <div class="uk-modal-dialog">
+                    <button class="uk-modal-close-default" type="button" uk-close=""></button>
+                    <div class="uk-modal-header">
+                        <h2 class="uk-modal-title">Add New Service</h2>
+                    </div>
+                    <div class="uk-modal-body">
+                        <?php 
+                        
+                            $action = "services_add.php";
+                        
+                        ?>
+                        <?php include "assets/components/form/services.php"; ?>
                     </div>
                 </div>
             </div>
+        </div>
+        <?php if ($jbas_services) : ?>
             <table class="uk-table uk-table-divider uk-table-striped uk-table-hover uk-table-small">
                 <thead>
                     <tr>
@@ -104,10 +105,10 @@ require_once "assets/components/head.php";
                     <?php endforeach ?>
                 </tbody>
             </table>
-        </div>
-    <?php else: ?>
-        <h1>No close dates yet</h1>
-    <?php endif ?>
+        <?php else: ?>
+            <h1 class="uk-text-center">No services yet</h1>
+        <?php endif ?>
+    </div>
 </div>
 </body>
 </html>
