@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $sql = "UPDATE services SET name = ?, description = ?, price = ? WHERE id = ?";
     $values = [$name, $description, $price, $id];
     execute($sql, $values);
+    sys_log($id, "services", "update");
 
     header("Location: services_index.php");
 }

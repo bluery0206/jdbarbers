@@ -27,4 +27,5 @@ if (!$service) {
 $sql = "DELETE FROM services WHERE id = ?";
 $values = [$id];
 execute($sql, $values);
+sys_log($id, "services", "delete");
 header("Location: services_index.php");

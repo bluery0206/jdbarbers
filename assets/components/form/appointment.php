@@ -27,7 +27,7 @@
     <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-service-<?= $day_count ?>">Service</label>
         <div class="uk-form-controls">
-            <select name="service_id" class="uk-select" id="form-stacked-service-<?= $day_count ?>">
+            <select name="service_id" class="uk-select" id="form-stacked-service-<?= $day_count ?>" required>
                 <?php 
     
                     $sql = "SELECT * FROM services";

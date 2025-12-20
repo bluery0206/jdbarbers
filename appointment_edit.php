@@ -11,6 +11,8 @@ $sql = "SELECT
             AP.*, 
             S.name AS service_name, 
             S.price AS service_price, 
+            S.id AS service_id, 
+            C.id AS customer_id,
             C.name,
             C.email,
             C.mobile
@@ -40,12 +42,21 @@ $email      = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
 $mobile     = filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_STRING);
 $service_id = filter_input(INPUT_POST, 'service_id', FILTER_SANITIZE_STRING);
 
-$sql = "UPDATE customer SET name = ?, email = ?, mobile = ? WHERE id = ?"; 
-$values = [$name, $email, $mobile, $id];
-$appointment = execute($sql, $values);
+$sql = "UPDATE customer 
+        SET 
+            name = ?, 
+            email = ?, 
+            mobile = ? 
+        WHERE id = ?"; 
+$values = [$name, $email, $mobile, $appointment->customer_id];
+$customer = execute($sql, $values);
+sys_log($appointment->customer_id, "customer", "delete");
 
-$sql = "UPDATE appointment SET service_id = ? WHERE id = ?"; 
+$sql = "UPDATE appointment 
+        SET service_id = ? 
+        WHERE id = ?"; 
 $values = [$service_id, $id];
 $appointment = execute($sql, $values);
+sys_log($id, "appointment", "UPDATE");
 
 header("location: appointment_index.php?token=$token");

@@ -12,8 +12,6 @@ $sql = "SELECT * FROM appointment WHERE id = ?";
 $values = [$id];
 $appointment = execute($sql, $values)->fetch(PDO::FETCH_COLUMN);
 
-// var_dump($appointment);
-
 if (!$appointment) {
     header("location: appointment_index.php");
 }
@@ -23,25 +21,20 @@ $sql = "SELECT C.id FROM customer C, appointment WHERE appointment.customer_id =
 $values = [$id];
 $customer_id = execute($sql, $values)->fetch();
 
-// var_dump($customer_id);
-
 $sql = "DELETE FROM appointment WHERE id = ?";
 $values = [$id];
 execute($sql, $values);
+sys_log($id, "appointment", "delete");
 
-// var_dump($sql);
-
-$sql = "SELECT 1 FROM customer WHERE id = ?"; 
+$sql = "SELECT id FROM customer WHERE id = ?"; 
 $values = [$id];
-$customer_exists = execute($sql, $values)->fetch(PDO::FETCH_COLUMN);
+$customer_id = execute($sql, $values)->fetch(PDO::FETCH_COLUMN);
 
-echo "customer_exists: "; var_dump($customer_exists); echo "<br>";
-
-if (!$customer_exists) {
+if (!$customer_id) {
     $sql = "DELETE FROM customer WHERE id = ?"; 
-    $values = [$id];
+    $values = [$customer_id];
     $customer_deleted = execute($sql, $values);
-    echo "customer_deleted: "; var_dump($customer_deleted); echo "<br>";
+    sys_log($customer_id, "customer", "delete");
 }
 
 header("location: appointment_index.php");

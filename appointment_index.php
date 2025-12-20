@@ -53,6 +53,7 @@ require_once 'redirect.php';
             <table class="uk-table uk-table-divider uk-table-striped uk-table-hover uk-table-small">
                 <thead>
                     <tr>
+                        <th class="uk-table-shrink">Token</th>
                         <th class="uk-table-shrink">Customer</th>
                         <th>Service</th>
                         <th class="uk-table-shrink uk-text-center">Status</th>
@@ -77,18 +78,10 @@ require_once 'redirect.php';
                             <?php else : ?>
                                 uk-text-muted
                             <?php endif ?>">
+                            <td class="uk-text-nowrap"><?= $appointment->token ?></td>
                             <td class="uk-text-nowrap"><?= $appointment->name ?></td>
                             <td><?= $appointment->service_name ?> - &#8369;<?= $appointment->service_price ?></td>
-                            <td class="uk-flex uk-flex-center
-                                <?php if ($appointment->status == "rejected" ) : ?>
-                                    uk-text-danger
-                                <?php elseif ($appointment->status == "confirmed" ) : ?>
-                                    uk-text-primary
-                                <?php else : ?>
-                                    uk-text-muted
-                                <?php endif ?>">
-                                <?= $appointment->status ?>
-                            </td>
+                            <td class="uk-flex uk-flex-center" ?><?= $appointment->status ?></td>
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_appointment)) ?></td>
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_created)) ?></td>
                             <td class="uk-text-nowrap"><?= date("M d, Y", strtotime($appointment->date_updated)) ?></td>

@@ -23,5 +23,6 @@ $sql = "UPDATE appointment SET status = ? WHERE id = ?";
 $values = ["rejected", $id];
 $confirmation = execute($sql, $values);
 echo "confirmation: "; var_dump($confirmation); echo "<br>";
+sys_log($appointment_id, "appointment", "update status");
 
 header("location: appointment_index.php");

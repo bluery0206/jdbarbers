@@ -48,6 +48,7 @@ require_once "assets/components/head.php";
                     $sql = "UPDATE close_dates SET date_close = ?, time_start = ?, time_end = ? WHERE id = ?";
                     $values = [$date_close, $time_start, $time_end, $id];
                     execute($sql, $values);
+                    sys_log($id, "close_dates", "update");
 
                     header("Location: close_dates_index.php");
                 }

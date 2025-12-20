@@ -6,7 +6,7 @@ require_once "db.php";
 require_once "config.php";
 require_once "helpers.php";
 
-if ($_SESSION["user"] && $_SESSION['session_token']) {
+if ($_SESSION["user"]) {
     sys_log($_SESSION["user"]->id, "user", "logout");
 }
 

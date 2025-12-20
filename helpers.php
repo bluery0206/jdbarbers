@@ -108,7 +108,7 @@ function isViewActive(string|array $view, string $returnOnTrue = "active"): stri
                 }
             }
         } else {
-            throw new InvalidTypeException();
+            throw new Exception();
         }
     } catch (Exception $e) {
         return "";
@@ -217,7 +217,7 @@ function isAuthorized($user = null) {
 
 
 function sys_log($user_id = '', $category, $action) {
-    $sql    = "INSERT INTO log (user_id, category, action, date_created) 
+    $sql    = "INSERT INTO log (category_id, category, action, date_created) 
                 VALUES (?, ?, ?, CURTIME());";
     $values = [$user_id, $category, $action];
     execute($sql, $values);

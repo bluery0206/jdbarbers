@@ -40,6 +40,7 @@ require_once "assets/components/head.php";
         $sql = "SELECT id FROM customer WHERE name = ? AND email = ? AND mobile = ? LIMIT 1"; 
         $values = [$name, $email, $mobile];
         $customer = execute($sql, $values)->fetch();
+        sys_log($customer->id, "customer", "create");
     }
 
     $customer_id = $customer->id;
@@ -55,5 +56,11 @@ require_once "assets/components/head.php";
             VALUES (?, ?, ?, ?, ?)"; 
     $values = [$token, $customer_id, $service_id, "pending", $date];
     execute($sql, $values);
+
+    $sql = "SELECT id FROM appointment WHERE token = ? LIMIT 1"; 
+    $values = [$token];
+    $appointment_id = execute($sql, $values)->fetch(PDO::FETCH_COLUMN);
+    sys_log($appointment_id, "appointment", "create");
+
     header("location: appointment_check.php?token=$token");
 ?>

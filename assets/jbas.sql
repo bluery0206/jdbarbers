@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2025 at 01:17 AM
+-- Generation Time: Dec 20, 2025 at 10:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -77,7 +77,7 @@ CREATE TABLE `customer` (
 
 CREATE TABLE `log` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `category` varchar(25) NOT NULL,
   `action` varchar(25) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()

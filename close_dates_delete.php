@@ -29,4 +29,5 @@ if (!$close_date) {
 $sql = "DELETE FROM close_dates WHERE id = ?";
 $values = [$id];
 execute($sql, $values);
+sys_log($id, "close_dates", "delete");
 header("Location: close_dates_index.php");

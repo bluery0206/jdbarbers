@@ -23,7 +23,7 @@ require_once "assets/components/head.php";
         require_once "assets/components/nav.php";
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $user_id        = $_SESSION['user']->id;
+            $user_id    = $_SESSION['user']->id;
             $date_close = $_POST['date_close']; 
             $time_start = $_POST['time_start']; 
             $time_end = $_POST['time_end']; 
@@ -36,6 +36,11 @@ require_once "assets/components/head.php";
                 $sql = "INSERT INTO close_dates (user_id, date_close, time_start, time_end) VALUES (?, ?, ?, ?)";
                 $values = [$user_id, $date_close, $time_start, $time_end];
                 execute($sql, $values);
+
+                $sql = "SELECT id FROM close_dates WHERE user_id = ? AND date_close = ? AND time_start = ? AND time_end = ?";
+                $values = [$user_id, $date_close, $time_start, $time_end];
+                $close_dates_id = execute($sql, $values)->fetch(PDO::FETCH_COLUMN);
+                sys_log($close_dates_id, "close_dates", "create");
 
                 header("Location: close_dates_index.php");
             } else {

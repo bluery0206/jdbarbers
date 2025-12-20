@@ -27,11 +27,25 @@ require_once "assets/components/head.php";
         header("Location: index.php");
     }
 
-    $sql = "SELECT A.*, S.name AS service_name, S.price AS service_price, C.* 
-            FROM appointment A, services S, customer C
-            WHERE a.token = ? LIMIT 1";
+    $sql = "SELECT 
+                A.*, 
+                S.name AS service_name, 
+                S.price AS service_price, 
+                C.* 
+            FROM 
+                appointment A
+            INNER JOIN 
+                services S 
+            ON 
+                S.id = A.service_id
+            INNER JOIN 
+                customer C
+            ON
+                C.id = A.customer_id
+            WHERE A.token = ? LIMIT 1";
     $values = [$token];
     $appointment = execute($sql, $values)->fetch();
+    // echo "appointment: "; var_dump($appointment); echo "<br>";
 ?>
 
 <?php 
@@ -59,7 +73,16 @@ require_once "assets/components/nav.php";
                     <tr>
                         <td><?= $appointment->name ?></td>
                         <td><?= $appointment->service_name ?> - &#8369;<?= $appointment->service_price ?></td>
-                        <td><?= $appointment->status ?></td>
+                        <td class="uk-flex
+                            <?php if ($appointment->status == "rejected" ) : ?>
+                                uk-text-danger
+                            <?php elseif ($appointment->status == "confirmed" ) : ?>
+                                uk-text-primary
+                            <?php else : ?>
+                                uk-text-muted
+                            <?php endif ?>">
+                            <?= $appointment->status ?>
+                        </td>
                     </tr>
                 </tbody>
             </table>

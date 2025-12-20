@@ -24,4 +24,6 @@ $values = ["confirmed", $id];
 $confirmation = execute($sql, $values);
 echo "confirmation: "; var_dump($confirmation); echo "<br>";
 
+sys_log($appointment_id, "appointment", "update");
+
 header("location: appointment_index.php");
